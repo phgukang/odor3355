@@ -1,0 +1,15 @@
+{
+  "name": "악취 시민제보",
+  "short_name": "악취제보",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0b57d0",
+  "icons": [
+    {
+      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAEElEQVR4nO3BMQEAAADCoPVPbQ0PoAAAAABJRU5ErkJggg==",
+      "sizes": "64x64",
+      "type": "image/png"
+    }
+  ]
+}
