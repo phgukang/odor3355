@@ -3,15 +3,16 @@
   --card: #ffffff;
   --text: #0b1220;
   --muted: #6b7280;
-
-  /* 기존 기본 테두리 */
   --border: #e5e7eb;
 
-  /* 주황 계열 (악취 테마) */
-  --primary: #fb923c;             /* 버튼 기본 주황 */
-  --primary-dark: #f97316;        /* 버튼 hover */
-  --form-border: #fdba74;         /* 입력창 옅은 주황 */
-  --form-border-focus: #fb923c;   /* 포커스 시 강조 */
+  /* 주황 테마 */
+  --primary: #f97316;           /* 버튼 기본 주황 */
+  --primary-hover: #ea580c;     /* hover */
+  --primary-active: #c2410c;    /* active */
+
+  /* 입력 테두리(옅은 주황) */
+  --form-border: #fdba74;
+  --form-border-focus: #fb923c;
 }
 
 * {
@@ -106,14 +107,14 @@ label {
 }
 
 /* ======================
-   Input / Select (주황 테두리 적용)
+   Input / Select (옅은 주황 테두리)
 ====================== */
 input,
 select {
   width: 100%;
   padding: 12px 14px;
   border: 1px solid var(--form-border);
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 15px;
   background: #ffffff;
   outline: none;
@@ -144,7 +145,7 @@ select:focus {
   border: 1px solid var(--form-border);
   border-radius: 999px;
   padding: 6px 12px;
-  font-weight: 700;
+  font-weight: 800;
   background: #ffffff;
 }
 
@@ -156,35 +157,48 @@ select:focus {
   margin-top: 6px;
 }
 
+/* (요청 반영) 강도 의미 문구는 숨김 */
+.scaleNote {
+  display: none;
+}
+
 /* ======================
-   Buttons (세로 높이 확대)
+   Buttons (둥근 사각형 + 주황 + 큰 높이)
 ====================== */
 .btn {
-  border: 1px solid var(--primary);
-  background: #ffffff;
-  padding: 22px 24px;     /* 세로 높이 증가 */
-  min-height: 64px;       /* 모바일 터치 영역 확보 */
-  border-radius: 16px;
-  cursor: pointer;
+  width: 100%;                 /* 모바일에서 크게 */
+  min-height: 64px;            /* 세로 높이 확대 */
+  padding: 0 28px;
+
+  border-radius: 16px;         /* 둥근 사각형 */
+  border: none;
+
+  font-size: 18px;
   font-weight: 800;
-  font-size: 17px;
-  transition: background 0.15s ease, transform 0.05s ease;
+  letter-spacing: -0.2px;
+
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.05s ease;
 }
 
-.btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* 주황색 주요 버튼 */
 .btn.primary {
-  background: var(--primary);
+  background-color: var(--primary);
   color: #ffffff;
-  border-color: var(--primary);
 }
 
 .btn.primary:hover {
-  background: var(--primary-dark);
+  background-color: var(--primary-hover);
+}
+
+.btn.primary:active {
+  background-color: var(--primary-active);
+  transform: scale(0.98);
+}
+
+.btn:disabled {
+  background-color: #fdba74;
+  color: #fff7ed;
+  cursor: not-allowed;
 }
 
 /* ======================
@@ -208,11 +222,12 @@ select:focus {
 }
 
 /* ======================
-   Notes / Hints
+   Notes / Hints (요청 반영: 글씨 축소)
 ====================== */
 .hint {
-  margin: 10px 0 0;
-  font-size: 13px;
+  margin: 6px 0 0;
+  font-size: 11px;     /* 기존보다 축소 */
+  line-height: 1.4;
   color: var(--muted);
 }
 
