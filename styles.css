@@ -7,7 +7,10 @@
   --primary: #0b57d0;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", sans-serif;
@@ -15,14 +18,25 @@ body {
   background: var(--bg);
 }
 
+/* ---------- Header ---------- */
 .header {
   padding: 22px 16px 14px;
   border-bottom: 1px solid var(--border);
   background: #fff;
 }
-.header h1 { margin: 0 0 6px; font-size: 22px; }
-.header .sub { margin: 0; color: var(--muted); font-size: 14px; }
 
+.header h1 {
+  margin: 0 0 6px;
+  font-size: 22px;
+}
+
+.header .sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* ---------- Layout ---------- */
 .container {
   max-width: 860px;
   margin: 0 auto;
@@ -38,8 +52,12 @@ body {
   box-shadow: 0 2px 10px rgba(0,0,0,.03);
 }
 
-.card h2 { margin: 0 0 12px; font-size: 18px; }
+.card h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
 
+/* ---------- Row / Grid ---------- */
 .row {
   display: flex;
   align-items: center;
@@ -48,6 +66,32 @@ body {
   margin-bottom: 12px;
 }
 
+/* 위치 정보 입력용 grid (의미부여 5줄 포함) */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Buttons ---------- */
 .btn {
   border: 1px solid var(--border);
   background: #fff;
@@ -56,7 +100,11 @@ body {
   cursor: pointer;
   font-weight: 600;
 }
-.btn:disabled { opacity: .6; cursor: not-allowed; }
+
+.btn:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
 
 .btn.primary {
   border-color: var(--primary);
@@ -64,25 +112,38 @@ body {
   color: #fff;
 }
 
+/* ---------- Status ---------- */
 .status {
   color: var(--muted);
   font-size: 14px;
 }
-.status[data-kind="ok"] { color: #0f766e; }
-.status[data-kind="err"] { color: #b91c1c; }
-.status[data-kind="busy"] { color: #1d4ed8; }
 
-.grid2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-@media (max-width: 640px) {
-  .grid2 { grid-template-columns: 1fr; }
+.status[data-kind="ok"] {
+  color: #0f766e;
 }
 
-label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
-input, select {
+.status[data-kind="err"] {
+  color: #b91c1c;
+}
+
+.status[data-kind="busy"] {
+  color: #1d4ed8;
+}
+
+/* ---------- Form ---------- */
+.field {
+  margin-bottom: 12px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+input,
+select {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid var(--border);
@@ -91,14 +152,16 @@ input, select {
   background: #fff;
 }
 
-.field { margin-bottom: 12px; }
-
+/* ---------- Range (냄새 강도) ---------- */
 .rangeRow {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.rangeRow input[type="range"] { flex: 1; }
+
+.rangeRow input[type="range"] {
+  flex: 1;
+}
 
 .pill {
   min-width: 34px;
@@ -118,12 +181,15 @@ input, select {
   margin-top: 6px;
 }
 
-.hint {
-  margin: 10px 0 0;
-  font-size: 13px;
+/* 냄새 강도(0~5) 의미 설명 */
+.scaleNote {
+  margin-top: 8px;
+  font-size: 12px;
   color: var(--muted);
+  line-height: 1.4;
 }
 
+/* ---------- Text Helpers ---------- */
 .note {
   display: block;
   margin-top: 6px;
@@ -131,12 +197,20 @@ input, select {
   font-size: 12px;
 }
 
+.hint {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ---------- Details ---------- */
 .details summary {
   cursor: pointer;
   font-weight: 700;
   margin-top: 10px;
 }
 
+/* ---------- Footer ---------- */
 .footer {
   text-align: center;
   color: var(--muted);

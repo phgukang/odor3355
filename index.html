@@ -1,128 +1,95 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>악취 시민제보</title>
- <!-- iOS 홈 화면 아이콘 (정식) -->
-  <link rel="apple-touch-icon" sizes="180x180" href="/odor3355/icon-180.png">
-  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/odor3355/icon-180.png">
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#0b57d0" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.json" />
 </head>
-
 <body>
-  <header class="header">
-    <h1>악취 시민제보</h1>
-    <p class="sub">로그인 없이 참여 가능. 위치·시각은 제보 시 자동 기록된다.</p>
-  </header>
+  <h1>악취 시민제보</h1>
+  <p class="sub">로그인 없이 참여 가능. 위치·시간은 제보 시 자동 기록된다.</p>
 
-  <main class="container">
-    <!-- 1) 위치(참고용) -->
-    <section class="card">
-      <h2>1) 위치 확인(참고용)</h2>
+  <section class="card">
+    <h2>1) 위치 확인(참고용)</h2>
+    <button id="btnLocate">내 위치 가져오기</button>
+    <span id="locStatus">위치 미확인</span>
 
-      <div class="row">
-        <button id="btnLocate" class="btn" type="button">내 위치 가져오기</button>
-        <span id="locStatus" class="status">위치 미확인</span>
+    <div class="grid">
+      <div>
+        <label>위도(lat)</label>
+        <input id="lat" readonly />
       </div>
-
-      <div class="grid2">
-        <div>
-          <label>위도(lat)</label>
-          <input id="lat" type="text" readonly />
-        </div>
-        <div>
-          <label>경도(lon)</label>
-          <input id="lon" type="text" readonly />
-        </div>
-        <div>
-          <label>정확도(m)</label>
-          <input id="acc" type="text" readonly />
-        </div>
-        
+      <div>
+        <label>경도(lon)</label>
+        <input id="lon" readonly />
       </div>
-
-      <p class="hint">제보 제출 시 자동으로 위치를 다시 수집한다. PC에서 위치가 부정확하면 스마트폰으로 제보를 권장한다.</p>
-    </section>
-
-    <!-- 2) 제보 입력 -->
-    <section class="card">
-      <h2>2) 냄새 정보 입력</h2>
-
-      <div class="field">
-        <label for="odorType">냄새 종류</label>
-        <select id="odorType"></select>
+      <div>
+        <label>정확도(m)</label>
+        <input id="acc" readonly />
       </div>
+    </div>
 
-      <div class="field">
-        <label>냄새 강도(0~5)</label>
-        <div class="rangeRow">
-          <input id="odorIntensity" type="range" min="0" max="5" step="1" value="2" />
-          <span id="odorIntensityVal" class="pill">2</span>
-        </div>
-        <div class="rangeLegend">
-          <span>0 무취</span>
-          <span>5 매우 강함</span>
-        </div>
-      </div>
+    <p class="note">
+      제보 제출 시 자동으로 위치를 다시 수집한다.
+      PC에서 위치가 부정확하면 스마트폰으로 제보를 권장한다.
+    </p>
+  </section>
 
-      <div class="field">
-        <label for="durationCode">지속시간</label>
-        <select id="durationCode"></select>
-      </div>
+  <section class="card">
+    <h2>2) 냄새 정보 입력</h2>
 
-      <div class="field">
-        <label for="contextCode">발생 상황</label>
-        <select id="contextCode"></select>
-      </div>
+    <label>냄새 종류</label>
+    <select id="odorType"></select>
 
-      <div class="field">
-        <label for="exposureHeight">노출 높이</label>
-        <select id="exposureHeight"></select>
-        <small class="note">악취를 인지한 위치의 상대적 높이.</small>
-      </div>
+    <label>냄새 강도(0~5)</label>
+    <input type="range" id="odorIntensity" min="0" max="5" value="2" />
+    <span id="odorIntensityVal">2</span>
 
-      <div class="field">
-        <label for="perceptionLevel">인지 수준</label>
-        <select id="perceptionLevel"></select>
-      </div>
+    <div class="rangeLegend">
+      <span>0 무취</span>
+      <span>5 매우 강함</span>
+    </div>
 
-      <div class="field">
-        <label for="memoShort">간단 메모(선택, 80자 이내)</label>
-        <input id="memoShort" type="text" maxlength="80" placeholder="예: 바람 타고 축사냄새가 강하게 유입" />
-      </div>
+    <div class="scaleNote">
+      <b>강도 의미</b> ·
+      0 무취 ·
+      1 매우 약함(인지 어려움) ·
+      2 약함(인지됨) ·
+      3 보통(명확) ·
+      4 강함(불쾌) ·
+      5 매우 강함(참기 어려움)
+    </div>
 
-      <div class="row">
-        <button id="btnSubmit" class="btn primary" type="button">제보 제출</button>
-        <span id="submitStatus" class="status"></span>
-      </div>
+    <label>지속시간</label>
+    <select id="durationCode"></select>
 
-      <details class="details">
-        <summary>개인정보 안내</summary>
-        <ul>
-          <li>로그인/이름/연락처를 수집하지 않는다.</li>
-          <li>위치(위·경도)와 제보 시각은 제보 처리 목적의 최소 정보로 저장된다.</li>
-          <li>노출 높이는 상대적 범주로만 수집하며 개인 식별 정보는 수집하지 않는다.</li>
-        </ul>
-      </details>
-    </section>
+    <label>발생 상황</label>
+    <select id="contextCode"></select>
 
-    <!-- 설치 안내 -->
-    <section class="card">
-      <h2>설치(앱처럼 사용)</h2>
-      <ol>
-        <li>스마트폰에서 본 페이지 접속</li>
-        <li>브라우저 메뉴 → <b>홈 화면에 추가</b></li>
-        <li>이후 아이콘을 눌러 앱처럼 실행</li>
-      </ol>
-    </section>
-  </main>
+    <label>노출 높이</label>
+    <select id="exposureHeight"></select>
+    <p class="note">악취를 인지한 위치의 상대적 높이</p>
 
-  <footer class="footer">
-    <small>Research PWA MVP</small>
-  </footer>
+    <label>인지 수준</label>
+    <select id="perceptionLevel"></select>
+
+    <label>간단 메모(선택, 80자 이내)</label>
+    <input id="memoShort" placeholder="예: 바람 타고 축산냄새가 강하게 유입" />
+
+    <button id="btnSubmit">제보 제출</button>
+    <p id="submitStatus"></p>
+  </section>
+
+  <section class="card">
+    <h2>설치(앱처럼 사용)</h2>
+    <ol>
+      <li>스마트폰에서 본 페이지 접속</li>
+      <li>브라우저 메뉴 → 홈 화면에 추가</li>
+      <li>이후 아이콘으로 앱처럼 실행</li>
+    </ol>
+  </section>
 
   <script src="app.js"></script>
 </body>
