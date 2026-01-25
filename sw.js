@@ -1,4 +1,4 @@
-// Service Worker - cache v2 (¾÷µ¥ÀÌÆ® ¹Ý¿µ¿ë)
+// Service Worker - cache v2 (Â¾Ã·ÂµÂ¥Ã€ÃŒÃ†Â® Â¹ÃÂ¿ÂµÂ¿Ã«)
 const CACHE_NAME = "odor3355-v3";
 const ASSETS = [
   "./",
@@ -28,7 +28,7 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const req = event.request;
 
-  // ³×ºñ°ÔÀÌ¼Ç(ÆäÀÌÁö ·Îµå)Àº Ä³½Ã ¿ì¼±
+  // Â³Ã—ÂºÃ±Â°Ã”Ã€ÃŒÂ¼Ã‡(Ã†Ã¤Ã€ÃŒÃÃ¶ Â·ÃŽÂµÃ¥)Ã€Âº Ã„Â³Â½Ãƒ Â¿Ã¬Â¼Â±
   if (req.mode === "navigate") {
     event.respondWith(
       caches.match("./index.html").then((cached) => cached || fetch(req))
