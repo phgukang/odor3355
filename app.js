@@ -1,8 +1,11 @@
-/* 악취 시민제보 PWA - 프론트엔드 */
+/* ==================================================
+   악취 시민제보 PWA - app.js (FINAL + 강도 의미/색상 반영)
+   ================================================== */
 
+/* 1) Apps Script Web App URL(/exec) - 본인 것으로 설정 */
 const API_URL = "https://script.google.com/macros/s/AKfycbzQKahFNu1DMRiYVoSbpCw2iJJhTw9DPrkrZPYKf3RLvVy6GQB0xpE88jAIL3XXF5cLxw/exec";
 
-/* 2. 옵션 정의 */
+/* 2) 옵션 정의 */
 const ODOR_TYPES = [
   { v: "", t: "선택" },
   { v: "sewage", t: "하수·오수" },
@@ -48,7 +51,33 @@ const PERCEPTION_LEVELS = [
   { v: "very_clear", t: "매우 선명하게 느껴짐" }
 ];
 
-/* 3. 공통 유틸 */
+/* 3) 강도 의미(요청 반영) */
+const ODOR_INTENSITY_LABELS = {
+  0: "무취",
+  1: "매우 약한 냄새",
+  2: "약한 냄새",
+  3: "보통 냄새",
+  4: "강한 냄새",
+  5: "매우 강한 냄새"
+};
+
+/* 4) 강도 단계별 색상(요청 반영)
+   - 0: 회색(무취)
+   - 1~2: 연한 주황
+   - 3: 주황
+   - 4: 진한 주황
+   - 5: 붉은 주황(경고 느낌)
+*/
+const ODOR_INTENSITY_COLORS = {
+  0: { bg: "#e5e7eb", fg: "#111827", accent: "#9ca3af" },
+  1: { bg: "#ffedd5", fg: "#9a3412", accent: "#fdba74" },
+  2: { bg: "#fed7aa", fg: "#9a3412", accent: "#fb923c" },
+  3: { bg: "#fdba74", fg: "#7c2d12", accent: "#f97316" },
+  4: { bg: "#fb923c", fg: "#ffffff", accent: "#ea580c" },
+  5: { bg: "#ef4444", fg: "#ffffff", accent: "#dc2626" }
+};
+
+/* 5) 공통 유틸 */
 const $ = (id) => document.getElementById(id);
 
 function fillSelect(el, items) {
@@ -62,15 +91,16 @@ function fillSelect(el, items) {
 }
 
 function setStatus(el, msg, kind = "") {
-  el.textContent = msg;
-  if (el) el.dataset.kind = kind;
+  if (!el) return;
+  el.textContent = msg || "";
+  if (el.dataset) el.dataset.kind = kind;
 }
 
 function nowISO() {
   return new Date().toISOString();
 }
 
-/* 4. 위치 확인 */
+/* 6) 위치 확인 */
 function getLocation() {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
@@ -91,7 +121,7 @@ function getLocation() {
   });
 }
 
-/* 5. 서버 전송 */
+/* 7) 서버 전송 */
 async function sendToServer(payload) {
   try {
     await fetch(API_URL, {
@@ -110,7 +140,27 @@ async function sendToServer(payload) {
   }
 }
 
-/* 6. 초기화 */
+/* 8) 강도 표시 업데이트 (숫자+의미 + 색상 변화) */
+function updateIntensityUI(value, valEl, sliderEl) {
+  const v = Number(value);
+  const label = ODOR_INTENSITY_LABELS[v] ?? "";
+  valEl.textContent = `${v} · ${label}`;
+
+  const c = ODOR_INTENSITY_COLORS[v] || ODOR_INTENSITY_COLORS[3];
+
+  // 숫자/의미 표시 영역(pill) 색상 변경
+  valEl.style.backgroundColor = c.bg;
+  valEl.style.color = c.fg;
+  valEl.style.borderColor = c.accent;
+
+  // 슬라이더 포인트 색상(지원 브라우저: Chrome/Android/최신)
+  // 일부 iOS는 적용이 제한적일 수 있음
+  if (sliderEl) {
+    sliderEl.style.accentColor = c.accent;
+  }
+}
+
+/* 9) 초기화 */
 document.addEventListener("DOMContentLoaded", () => {
   // 요소 바인딩
   const btnLocate = $("btnLocate");
@@ -138,14 +188,14 @@ document.addEventListener("DOMContentLoaded", () => {
   fillSelect(exposureHeight, EXPOSURE_HEIGHTS);
   fillSelect(perceptionLevel, PERCEPTION_LEVELS);
 
-  // 강도 슬라이더 표시
-  odorIntensityVal.textContent = odorIntensity.value;
-  odorIntensity.addEventListener("input", () => {
-    odorIntensityVal.textContent = odorIntensity.value;
+  // 강도 표시(초기 + 이동)
+  updateIntensityUI(odorIntensity.value, odorIntensityVal, odorIntensity);
+  odorIntensity.addEventListener("input", (e) => {
+    updateIntensityUI(e.target.value, odorIntensityVal, odorIntensity);
   });
 
   // 위치 확인 버튼
-  btnLocate.addEventListener("click", async () => {
+  btnLocate?.addEventListener("click", async () => {
     setStatus(locStatus, "위치 확인 중…", "busy");
     try {
       const loc = await getLocation();
@@ -159,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // 제보 제출 버튼
-  btnSubmit.addEventListener("click", async () => {
+  btnSubmit?.addEventListener("click", async () => {
     setStatus(submitStatus, "제출 중…", "busy");
 
     try {
@@ -178,19 +228,23 @@ document.addEventListener("DOMContentLoaded", () => {
         lat: loc.lat,
         lon: loc.lon,
         gps_accuracy_m: Math.round(loc.acc),
+
         odor_type: odorType.value,
         odor_intensity: Number(odorIntensity.value),
+
         duration_code: durationCode.value,
         context_code: contextCode.value,
+
         exposure_height: exposureHeight.value,
         perception_level: perceptionLevel.value,
+
         memo_short: (memoShort.value || "").slice(0, 80)
       };
 
       await sendToServer(payload);
+
       setStatus(submitStatus, "제보가 접수되었다.", "ok");
       memoShort.value = "";
-
     } catch (e) {
       setStatus(submitStatus, `제출 실패: ${e} 선택 필요`, "err");
     }

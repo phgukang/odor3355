@@ -7,88 +7,118 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="manifest" href="manifest.json" />
 </head>
+
 <body>
-  <h1>악취 시민제보</h1>
-  <p class="sub">로그인 없이 참여 가능, 위치·시간은 제보 시 자동 전송</p>
+  <!-- (권장) header 클래스를 쓰기 위해 감싸줌 -->
+  <header class="header">
+    <h1>악취 시민제보</h1>
+    <p class="sub">로그인 없이 참여 가능, 위치·시간은 제보 시 자동 전송</p>
+  </header>
 
-  <section class="card">
-    <h2>1) 위치 확인(참고용)</h2>
-    <button id="btnLocate">내 위치 가져오기</button>
-    <span id="locStatus">위치 미확인</span>
+  <main class="container">
+    <section class="card">
+      <h2>1) 위치 확인(참고용)</h2>
 
-    <div class="grid">
-      <div>
-        <label>위도(lat)</label>
-        <input id="lat" readonly />
+      <div class="row">
+        <!-- ✅ 버튼 스타일 적용 -->
+        <button id="btnLocate" class="btn primary" type="button">내 위치 가져오기</button>
+        <span id="locStatus" class="status">위치 미확인</span>
       </div>
-      <div>
-        <label>경도(lon)</label>
-        <input id="lon" readonly />
+
+      <div class="grid">
+        <div>
+          <label>위도(lat)</label>
+          <input id="lat" readonly />
+        </div>
+        <div>
+          <label>경도(lon)</label>
+          <input id="lon" readonly />
+        </div>
+        <div>
+          <label>정확도(m)</label>
+          <input id="acc" readonly />
+        </div>
       </div>
-      <div>
-        <label>정확도(m)</label>
-        <input id="acc" readonly />
+
+      <p class="note">
+        제보 제출 시 자동으로 위치를 다시 수집한다.
+        PC에서 위치가 부정확하면 스마트폰으로 제보를 권장한다.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>2) 냄새 정보 입력</h2>
+
+      <div class="field">
+        <label>냄새 종류</label>
+        <select id="odorType"></select>
       </div>
-    </div>
 
-    <p class="note">
-      제보 제출 시 자동으로 위치를 다시 수집한다.
-      PC에서 위치가 부정확하면 스마트폰으로 제보를 권장한다.
-    </p>
-  </section>
+      <div class="field">
+        <label>냄새 강도(0~5)</label>
+        <div class="rangeRow">
+          <input type="range" id="odorIntensity" min="0" max="5" value="2" />
+          <span id="odorIntensityVal" class="pill">2</span>
+        </div>
 
-  <section class="card">
-    <h2>2) 냄새 정보 입력</h2>
+        <div class="rangeLegend">
+          <span>0 무취</span>
+          <span>5 매우 강함</span>
+        </div>
 
-    <label>냄새 종류</label>
-    <select id="odorType"></select>
+        <!-- (유지) styles.css에서 display:none 처리하면 화면엔 안 보임 -->
+        <div class="scaleNote">
+          <b>강도 의미</b> ·
+          0 무취 ·
+          1 매우 약함(인지 어려움) ·
+          2 약함(인지됨) ·
+          3 보통(명확) ·
+          4 강함(불쾌) ·
+          5 매우 강함(참기 어려움)
+        </div>
+      </div>
 
-    <label>냄새 강도(0~5)</label>
-    <input type="range" id="odorIntensity" min="0" max="5" value="2" />
-    <span id="odorIntensityVal">2</span>
+      <div class="field">
+        <label>지속시간</label>
+        <select id="durationCode"></select>
+      </div>
 
-    <div class="rangeLegend">
-      <span>0 무취</span>
-      <span>5 매우 강함</span>
-    </div>
+      <div class="field">
+        <label>발생 상황</label>
+        <select id="contextCode"></select>
+      </div>
 
-    <div class="scaleNote">
-      <b>강도 의미</b> ·
-      0 무취 ·
-      1 매우 약함(인지 어려움) ·
-      2 약함(인지됨) ·
-      3 보통(명확) ·
-      4 강함(불쾌) ·
-      5 매우 강함(참기 어려움)
-    </div>
+      <div class="field">
+        <label>노출 높이</label>
+        <select id="exposureHeight"></select>
+      </div>
 
-    <label>지속시간</label>
-    <select id="durationCode"></select>
+      <div class="field">
+        <label>인지 수준</label>
+        <select id="perceptionLevel"></select>
+      </div>
 
-    <label>발생 상황</label>
-    <select id="contextCode"></select>
+      <div class="field">
+        <label>간단 메모(선택, 80자 이내)</label>
+        <input id="memoShort" placeholder="예: 바람 타고 축산냄새가 강하게 유입" maxlength="80" />
+      </div>
 
-    <label>노출 높이</label>
-    <select id="exposureHeight"></select>
+      <div class="row">
+        <!-- ✅ 버튼 스타일 적용 -->
+        <button id="btnSubmit" class="btn primary" type="button">제보 제출</button>
+        <span id="submitStatus" class="status"></span>
+      </div>
+    </section>
 
-    <label>인지 수준</label>
-    <select id="perceptionLevel"></select>
-
-    <label>간단 메모(선택, 80자 이내)</label>
-    <input id="memoShort" placeholder="예: 바람 타고 축산냄새가 강하게 유입" />
-
-    <button id="btnSubmit">제보 제출</button>
-    <p id="submitStatus"></p>
-  </section>
-
-  <section class="card">
-    <h2>설치(앱처럼 사용)</h2>
-    <ol>
-      <li>스마트폰에서 본 페이지 접속</li>
-      <li>브라우저 메뉴 → 홈 화면에 추가</li>
-      <li>이후 아이콘으로 앱처럼 실행</li>
-    </ol>
-  </section>
+    <section class="card">
+      <h2>설치(앱처럼 사용)</h2>
+      <ol>
+        <li>스마트폰에서 본 페이지 접속</li>
+        <li>브라우저 메뉴 → 홈 화면에 추가</li>
+        <li>이후 아이콘으로 앱처럼 실행</li>
+      </ol>
+    </section>
+  </main>
 
   <script src="app.js"></script>
 </body>
