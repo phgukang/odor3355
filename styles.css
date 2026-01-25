@@ -95,38 +95,33 @@ body {
 .btn {
   border: 1px solid var(--border);
   background: #fff;
-  padding: 14px 18px;
-  border-radius: 12px;
+  padding: 18px 20px;      /* 세로 높이 증가(기존보다 큼) */
+  min-height: 56px;        /* 터치 영역 확보 */
+  border-radius: 14px;
   cursor: pointer;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 16px;
 }
 
-.btn:disabled {
-  opacity: .6;
-  cursor: not-allowed;
-}
-
-/* 내 위치 가져오기 */
-#btnLocate {
-  background: #2563eb;   /* 밝은 파랑 */
-  color: #ffffff;
-  border-color: #2563eb;
-}
-
-#btnLocate:hover {
-  background: #1d4ed8;
-}
-
-/* 제보 제출 */
+/* 내 위치 가져오기 / 제보 제출: 주황 계열 */
+#btnLocate,
 #btnSubmit {
-  background: #16a34a;   /* 선명한 녹색 */
+  background: #f97316;     /* 주황(밝음) */
   color: #ffffff;
-  border-color: #16a34a;
+  border-color: #f97316;
 }
 
+#btnLocate:hover,
 #btnSubmit:hover {
-  background: #15803d;
+  background: #ea580c;     /* 주황(진함) */
+  border-color: #ea580c;
+}
+
+/* 클릭(터치) 시 */
+#btnLocate:active,
+#btnSubmit:active {
+  background: #c2410c;
+  border-color: #c2410c;
 }
 
 /* ---------- Status ---------- */

@@ -1,5 +1,5 @@
 {
-  "name": "악취 시민제보",
+  "name": "악취제보",
   "short_name": "악취제보",
   "start_url": "./index.html",
   "display": "standalone",
@@ -7,9 +7,16 @@
   "theme_color": "#0b57d0",
   "icons": [
     {
-      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAEElEQVR4nO3BMQEAAADCoPVPbQ0PoAAAAABJRU5ErkJggg==",
-      "sizes": "64x64",
-      "type": "image/png"
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
