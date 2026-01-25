@@ -66,7 +66,7 @@ body {
   margin-bottom: 12px;
 }
 
-/* 위치 정보 입력용 grid (의미부여 5줄 포함) */
+/* 위치·좌표 입력용 grid (의미부여 5줄) */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -95,10 +95,11 @@ body {
 .btn {
   border: 1px solid var(--border);
   background: #fff;
-  padding: 10px 14px;
-  border-radius: 10px;
+  padding: 14px 18px;
+  border-radius: 12px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 16px;
 }
 
 .btn:disabled {
@@ -106,10 +107,26 @@ body {
   cursor: not-allowed;
 }
 
-.btn.primary {
-  border-color: var(--primary);
-  background: var(--primary);
-  color: #fff;
+/* 내 위치 가져오기 */
+#btnLocate {
+  background: #2563eb;   /* 밝은 파랑 */
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+#btnLocate:hover {
+  background: #1d4ed8;
+}
+
+/* 제보 제출 */
+#btnSubmit {
+  background: #16a34a;   /* 선명한 녹색 */
+  color: #ffffff;
+  border-color: #16a34a;
+}
+
+#btnSubmit:hover {
+  background: #15803d;
 }
 
 /* ---------- Status ---------- */
