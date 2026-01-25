@@ -20,7 +20,7 @@ const ODOR_TYPES = [
 ];
 
 const DURATION_CODES = [
-  { v: "", t: "선택" },
+  { v: "undetermined", t: "판단 어려움(제보 시점)" },
   { v: "lt5", t: "5분 미만" },
   { v: "5to30", t: "5~30분" },
   { v: "30to120", t: "30분~2시간" },
@@ -28,20 +28,18 @@ const DURATION_CODES = [
 ];
 
 const CONTEXT_CODES = [
-  { v: "", t: "선택" },
-  { v: "indoor_closed", t: "실내(창문 닫힘)" },
-  { v: "indoor_open", t: "실내(창문 열림)" },
-  { v: "outdoor_balcony", t: "실외(베란다/창가)" },
+  { v: "outdoor_balcony", t: "실외(창가/베란다)" },
   { v: "outdoor_street", t: "실외(도로/골목)" },
+  { v: "indoor_open", t: "실내(창문 열림)" },
+  { v: "indoor_closed", t: "실내(창문 닫힘)" },
   { v: "near_facility", t: "시설/사업장 인근" },
   { v: "unknown", t: "모름" }
 ];
 
-const CERTAINTY_CODES = [
-  { v: "", t: "선택" },
-  { v: "low", t: "낮음" },
-  { v: "mid", t: "보통" },
-  { v: "high", t: "확실" }
+const PERCEPTION_LEVELS = [
+  { v: "faint", t: "희미하게 느껴짐" },
+  { v: "clear", t: "분명하게 느껴짐" },
+  { v: "very_clear", t: "매우 선명하게 느껴짐" }
 ];
 
 // ---------- DOM ----------
@@ -162,8 +160,7 @@ function buildPayload(loc) {
   const context_code = els.contextCode.value;
   const certainty_code = els.certaintyCode.value;
 
-  const floorRaw = safeTrim(els.buildingFloor.value);
-  const building_floor = floorRaw === "" ? "" : Number(floorRaw);
+  const exposure_height = els.exposureHeight.value;
 
   const memo_short = safeTrim(els.memoShort.value).slice(0, 80);
 
@@ -171,7 +168,7 @@ function buildPayload(loc) {
   if (!odor_type) throw new Error("MISSING_ODOR_TYPE");
   if (!duration_code) throw new Error("MISSING_DURATION");
   if (!context_code) throw new Error("MISSING_CONTEXT");
-  if (!certainty_code) throw new Error("MISSING_CERTAINTY");
+  if (!perception_level) throw new Error("MISSING_PERCEPTION");
 
   if (loc?.lat == null || loc?.lon == null) throw new Error("MISSING_LOCATION");
 
