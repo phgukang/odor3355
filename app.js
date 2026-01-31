@@ -243,7 +243,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       await sendToServer(payload);
 
-      setStatus(submitStatus, "제보가 접수되었다.", "ok");
+      /* ✅ 성공 메시지 변경: "접수 완료" */
+      setStatus(submitStatus, "접수 완료", "ok");
       memoShort.value = "";
     } catch (e) {
       setStatus(submitStatus, `제출 실패: ${e} 선택 필요`, "err");
