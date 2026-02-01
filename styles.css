@@ -167,8 +167,8 @@ select:focus {
 ====================== */
 .btn {
   width: 100%;                 /* 모바일에서 크게 */
-  min-height: 64px;            /* 세로 높이 확대 */
-  padding: 0 28px;
+  min-height: 56px;            /* 세로 높이 확대 */
+  padding: 0 24px;
 
   border-radius: 16px;         /* 둥근 사각형 */
   border: none;
