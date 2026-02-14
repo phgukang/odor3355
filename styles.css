@@ -255,3 +255,9 @@ select:focus {
   color: var(--muted);
   padding: 14px 0 30px;
 }
+
+/* ======================
+   정확도(m) 화면 숨김 처리용
+   - index.html에서 정확도 블록 div에 class="hideAcc"만 추가하면 됨
+====================== */
+.hideAcc { display: none !important; }
